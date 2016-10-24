@@ -4,6 +4,8 @@ $('.upload-btn').on('click', function(){
     $('.progress-bar').width('0%');
 });
 
+$('.subimt-btn').prop('disabled', true);
+
 $('#upload-input').on('change', function(){
     var files = $(this).get(0).files;
 console.log(files);
@@ -23,6 +25,13 @@ if(files.length > 0){
 
 });
 
+$('.subimt-btn').on('click', function(){
+    $.get( "/submitfile", function( data ) {
+    $( ".result" ).html( data );
+    console.log( "upLoad to mongodb was performed." );
+    });
+});
+
 function makeAjaxCall(formData){
     $.ajax({
         url:'/upload',
@@ -32,6 +41,7 @@ function makeAjaxCall(formData){
         contentType: false,
         success: function(data){
             console.log('upload successful \n' + data);
+            $('.subimt-btn').prop('disabled', false);
         }, 
         xhr: function(){
             var xhr = new XMLHttpRequest();
